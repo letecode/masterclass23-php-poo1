@@ -2,6 +2,7 @@
 
     class Contact {
 
+        // proprietes
         public $name;
         public $prenom;
         public $phone;
@@ -14,7 +15,6 @@
             $this->phone = $phone;
             $this->email = $email;
         }
-
 
         function setName($name) {
             $this->name = $name;
