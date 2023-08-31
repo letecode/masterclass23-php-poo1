@@ -3,27 +3,43 @@
 
     class ContactController {
 
-        // function __construct()
-        // {
-            
-        // }
+        public $db;
+
+        function __construct()
+        {
+            include __DIR__.'/../../data/connexion.php';
+            $con = new Connexion();
+            $this->db = $con->connexion;
+        }
        
         public function getContactList(){
-            include_once __DIR__. '/../contact.php';
-            include_once __DIR__. '/../models/personne.php';
+            include __DIR__.'/../contact.php';
 
-           $contact = new Contact("Kilolo", "Michee", "0873763663", "email@email.com");
+            $query = "SELECT * FROM contacts";
+            $stmt = $this->db->query($query);
 
-           $personne = new Person("Jean", "Humaine", "Parler");
-           $personne->deplacer();
-
-            $contacts = [];
-
-            for($i =0;$i < 20;$i++) {
-                array_push($contacts, $contact);
+            if($stmt->rowCount() > 0) {
+                $list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $contacts = array_filter($list, function($el) {
+                    return  new Contact(
+                        $el["name"],
+                        $el['prenom'],
+                        $el['phone'],
+                        $el["email"]
+                    );
+                });
+                return $contacts;
+            } else {
+                return [];
             }
-
-            return $contacts;
         }
+
+        public function createContact($name, $prenom, $phone, $email) {
+            $stamt = $this->db->prepare("INSERT INTO contacts (name, prenom, phone, email) VALUES (?, ?, ?, ?)");
+    
+            return $stamt->execute([$name, $prenom, $phone, $email]);
+        }
+
+
     }
 ?>

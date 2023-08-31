@@ -12,7 +12,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>Liste des contacs</h1>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>Liste des contacs</h1>
+            <a class="btn btn-primary" href="create.php">Ajouter</a>
+        </div>
 
         <table class="table">
             <thead>
@@ -28,10 +31,10 @@
                     foreach($contacts as $contact) {
             
                         echo "<tr>";
-                        echo "<td>".$contact->name."</td>";
-                        echo "<td>".$contact->prenom."</td>";
-                        echo "<td>".$contact->phone."</td>";
-                        echo "<td>".$contact->email."</td>";
+                        echo "<td>".$contact["name"]."</td>";
+                        echo "<td>".$contact['prenom']."</td>";
+                        echo "<td>".$contact["phone"]."</td>";
+                        echo "<td>".$contact["email"]."</td>";
                         echo "</tr>";
                     }
 
