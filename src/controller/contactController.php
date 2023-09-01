@@ -7,9 +7,14 @@
 
         function __construct()
         {
-            include __DIR__.'/../../data/connexion.php';
-            $con = new Connexion();
-            $this->db = $con->connexion;
+            try {
+                $connexion = new PDO('mysql:host=localhost;dbname=master_contacts', "root", 'root');
+            } catch (Exception $e) {
+                die("Error".$e->getMessage());
+            }
+
+        
+            $this->db = $connexion;
         }
        
         public function getContactList(){

@@ -1,3 +1,32 @@
+<?php
+    if(isset($_POST['name'])) {
+        if(isset($_POST["name"]) and
+            isset($_POST["prenom"]) and
+            isset($_POST["phone"]) and
+            isset($_POST["email"])
+        ) {
+          
+            try {
+                $db = new PDO('mysql:host=localhost;dbname=master_contacts', "root", 'root');
+            } catch (Exception $e) {
+                die("Error".$e->getMessage());
+            }
+
+            $stamt = $db->prepare("INSERT INTO contacts (name, prenom, phone, email) VALUES (?, ?, ?, ?)");
+    
+            $created = $stamt->execute([$_POST['name'], $_POST['prenom'], $_POST['phone'], $_POST['email']]);
+
+            if($created) {
+                header('location: index.php');
+            } else {
+                header('location: create.php');
+            }
+        } else {
+
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +40,7 @@
     <div class="container">
         <h1>Creation</h1>
 
-        <form action="src/models/create.php" method="POST">
+        <form action="create.php" method="POST">
             <div class="form-group mb-3">
                 <label for="">Nom</label>
                 <input type="text" class="form-control" name="name">

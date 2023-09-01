@@ -1,5 +1,20 @@
 <?php
-    include "models/data.php";
+    try {
+        $db = new PDO('mysql:host=localhost;dbname=master_contacts', "root", 'root');
+    } catch (Exception $e) {
+        die("Error".$e->getMessage());
+    }
+
+    $query = "SELECT * FROM contacts";
+    $stmt = $db->query($query);
+
+    $contacts = [];
+
+    if($stmt->rowCount() > 0) {
+        $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $contacts = [];
+    }
 ?>
 
 <!DOCTYPE html>
